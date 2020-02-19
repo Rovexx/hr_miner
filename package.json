@@ -7,5 +7,9 @@
   "scripts": {
     "start": "node main.js"
   },
-  "author": "Roel Versteeg"
+  "author": "Roel Versteeg",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "sha256": "^0.2.0"
+  }
 }
