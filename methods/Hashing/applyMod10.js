@@ -11,11 +11,20 @@ function applyMod10(blockInChunks) {
     blockInChunks.splice(0, 2);
 
     // add the numbers together from both arrays
-    let newChunk = [];
-    for (let i = 0; i < 10; i++) {
-      let added = (chunk_1[i] + chunk_2[i]);
-      newChunk.push(added % 10);
+    function countTogether(firstChunk, secondChunk, generatedChunk) {
+      if(generatedChunk.length !== 10) {
+        const i = generatedChunk.length;
+        const added = (firstChunk[i] + secondChunk[i]);
+        generatedChunk.push(added % 10);
+
+        // As long as the new chunk is not done call this function again
+        return countTogether(firstChunk, secondChunk, generatedChunk);
+      } else {
+        return generatedChunk;
+      }
     }
+
+    const newChunk = countTogether(chunk_1, chunk_2, []);
     // Ad the new chunk to the beginning for the next round
     blockInChunks.unshift(newChunk);
     // repeat

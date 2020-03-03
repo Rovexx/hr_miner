@@ -1,15 +1,19 @@
 {
   "name": "hr_miner",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "HR crypto miner voor Functional programming",
   "private": true,
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "test": "jest"
   },
   "author": "Roel Versteeg",
   "dependencies": {
     "axios": "^0.19.2",
     "sha256": "^0.2.0"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
   }
 }

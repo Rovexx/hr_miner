@@ -12,16 +12,15 @@ const applyMod10 = require('./hashing/applyMod10.js').applyMod10;
  * @param nonce Starting nonce
  */
 function mine(lastBlockData, nextBlockData, nonce, name, postUrl) {
-  const lastBlockString = hash(lastBlockData);
-  const preparedHashString = sha256(lastBlockString) + nextBlockData;
+  const preparedHashString = hash(lastBlockData) + nextBlockData;
 
   // Find the correct nonce
   console.log('Mining...');
-  while (sha256(hash(preparedHashString + nonce)).slice(0, 4) !== '0000') {
+  while (hash(preparedHashString + nonce).slice(0, 4) !== '0000') {
     nonce++
   }
   console.log('Nonce found!', nonce);
-  console.log('Matched Hash: ', sha256(hash(preparedHashString + nonce)));
+  console.log('Matched Hash: ', hash(preparedHashString + nonce));
   
   axios.post(postUrl, {
     "nonce": nonce.toString(),
@@ -37,7 +36,10 @@ function mine(lastBlockData, nextBlockData, nonce, name, postUrl) {
   })
 }
 
-// Hash a string
+/**
+ * Generate a string from the data from the last block and return a hash based on the MOD10 algorithm
+ * @param lastBlock A string from the data of the last block in the chain
+ */
 function hash(lastBlock) {
   // Convert block string to ASCII but leave numbers intact
   const blockAsASCII = convertToASCII(lastBlock);
@@ -48,9 +50,14 @@ function hash(lastBlock) {
   // Count up chunks with Mod10 algorithm
   const finalString = applyMod10(splitBlock);
 
-  return finalString;
+  // As higher order functions
+  // const finalString = applyMod10(splitIntoChunks(convertToASCII(lastBlock)));
+
+  const hashedFinalString = sha256(finalString);
+  return hashedFinalString;
 }
 
 module.exports = {
-  mine: mine
+  mine: mine,
+  hash: hash
 }
